@@ -1,6 +1,7 @@
 [![TestRail v4.1](https://img.shields.io/badge/TestRail%20API-v2-green.svg)](http://docs.gurock.com/testrail-api2/start)
 
 # Jest2TestRail
+FORK OF: https://github.com/zeljkosimic95/Jest-2-Testrail
 
 This package allows you to use [Jest](https://jestjs.io/) in conjunction with [TestRail](http://www.gurock.com/testrail/).
 
@@ -41,17 +42,18 @@ module.exports = {
 The Case ID from TestRail must be added to the start of each _it()_ description, <br>and separated from the test name by a colon - ":".
 
 ```javascript
-describe("Login Page", () => {
-  // "1:" this is Case ID from Test Rail
-  it("1: Login success", async () => {
+// "1:" this is the Suite ID from Test Rail
+describe("1: Login Page", () => {
+  // "10:" this is Case ID from Test Rail
+  it("10: Login success", async () => {
     expect(1).toBe(1);
   });
 
-  it("2: Login fail", async () => {
+  it("20: Login fail", async () => {
     expect(1).toBe(0);
   });
 
-  xit("3: Registration", async () => {
+  xit("30: Registration", async () => {
     expect(1).toBe(1);
   });
 });
