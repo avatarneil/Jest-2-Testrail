@@ -31,6 +31,8 @@ class Reporter {
 
     let message = "Automated test run";
 
+    console.log(this.testRailResults);
+    
     Promise.all(
       Object.entries(this.testRailResults).map(async (suiteId, results) => {
         const suite = await api.getSuite(suiteId);
