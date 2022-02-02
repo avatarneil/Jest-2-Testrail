@@ -74,7 +74,7 @@ class Reporter {
 
       for (let i = 0; i < itResults.length; i += 1) {
         const result = itResults[i];
-        console.log('DEBUG', result.ancestorIds);
+        console.log('DEBUG', result);
         const suiteId = parseInt(result.ancestorIds[0].split(":")[0], 10);
         const id = result.title.split(":")[0];
         const idNum = parseInt(id, 10);
