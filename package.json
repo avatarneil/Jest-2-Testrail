@@ -1,6 +1,6 @@
 {
   "name": "@avatarneil/jest-2-testrail",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "description": "Jest based reporter for creating a new run and sending test results to TestRail",
   "main": "JestReporter.js",
   "scripts": {
@@ -21,6 +21,9 @@
     },
     {
       "name": "Zeljko Simic"
+    },
+    {
+      "name": "Neil Goldader"
     }
   ],
   "license": "MIT",
@@ -34,9 +37,9 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0"
   },
-  "homepage": "https://github.com/zeljkosimic95/Jest-2-Testrail",
+  "homepage": "https://github.com/avatarneil/Jest-2-Testrail",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zeljkosimic95/Jest-2-Testrail.git"
+    "url": "git+https://github.com/avatarneil/Jest-2-Testrail.git"
   }
 }

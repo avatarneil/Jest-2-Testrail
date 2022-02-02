@@ -30,11 +30,9 @@ class Reporter {
     };
 
     let message = "Automated test run";
-
-    console.log(this.testRailResults);
     
     Promise.all(
-      Object.entries(this.testRailResults).map(async (suiteId, results) => {
+      Object.entries(this.testRailResults).map(async ([suiteId, results]) => {
         const suite = await api.getSuite(suiteId);
         const name = `${suite.name} - ${now.toLocaleString(
           ["en-GB"],
