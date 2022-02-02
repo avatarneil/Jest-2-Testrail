@@ -20,22 +20,22 @@ class Reporter {
     const now = new Date();
 
     const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
       hour12: false,
     };
 
-    let message = "Automated test run";
-    
+    const message = 'Automated test run';
+
     Promise.all(
       Object.entries(this.testRailResults).map(async ([suiteId, results]) => {
         const suite = await api.getSuite(suiteId);
         const name = `${suite.name} - ${now.toLocaleString(
-          ["en-GB"],
+          ['en-GB'],
           options
         )} - (${message})`;
 
@@ -47,11 +47,8 @@ class Reporter {
               include_all: false,
               case_ids: this.caseids[suiteId],
             })
-            .catch((error) => {
-              console.log(error.message || error);
-            });
 
-          console.log("Created new test run: " + name);
+          console.log('Created new test run: ' + name);
 
           await api.addResultsForCases(run.id, {
             results,
@@ -59,9 +56,9 @@ class Reporter {
 
           await api.closeRun(run.id);
 
-          console.log("Added test results and closed test run");
+          console.log('Added test results and closed test run');
         } catch (err) {
-          console.log(error.message || error);
+          console.log(err.message || err);
         }
       })
     );
@@ -75,23 +72,26 @@ class Reporter {
       for (let i = 0; i < itResults.length; i += 1) {
         const result = itResults[i];
         /**
-         * Testrails Suite ID. Pulls from the top-most describe block if possible, otherwise attempts to use a suite_id from the reporter options. 
+         * Testrails Suite ID. Pulls from the top-most describe block if possible,
+         * otherwise attempts to use a suite_id from the reporter options.
          */
         const suiteId = (() => {
-          const { ancestorTitles: [parentTitle] } = result;
+          const {
+            ancestorTitles: [parentTitle],
+          } = result;
 
           if (parentTitle) {
             const [titleHeader] = parentTitle.split(':');
             return parseInt(titleHeader, 10);
           }
-          
-          return this._options.suite_id
+
+          return this._options.suite_id;
         })();
 
         const caseId = (() => {
           const { title } = result;
           const [titleHeader] = title.split(':');
-          
+
           return parseInt(titleHeader, 10);
         })();
 
@@ -110,15 +110,15 @@ class Reporter {
         this.caseids[suiteId].push(caseId);
 
         switch (result.status) {
-          case "pending":
+          case 'pending':
             this.testRailResults[suiteId].push({
               case_id: caseId,
               status_id: 2,
-              comment: "Intentionally skipped (xit).",
+              comment: 'Intentionally skipped (xit).',
             });
             break;
 
-          case "failed":
+          case 'failed':
             this.testRailResults[suiteId].push({
               case_id: caseId,
               status_id: 5,
@@ -126,11 +126,11 @@ class Reporter {
             });
             break;
 
-          case "passed":
+          case 'passed':
             this.testRailResults[suiteId].push({
               case_id: caseId,
               status_id: 1,
-              comment: "Test passed successfully.",
+              comment: 'Test passed successfully.',
             });
             break;
 
