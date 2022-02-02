@@ -1,7 +1,7 @@
 [![TestRail v4.1](https://img.shields.io/badge/TestRail%20API-v2-green.svg)](http://docs.gurock.com/testrail-api2/start)
 
 # Jest2TestRail
-FORK OF: https://github.com/zeljkosimic95/Jest-2-Testrail
+Fork of: https://github.com/zeljkosimic95/Jest-2-Testrail, adding support for inheriting suite_id from the top-most describe block.
 
 This package allows you to use [Jest](https://jestjs.io/) in conjunction with [TestRail](http://www.gurock.com/testrail/).
 
@@ -22,6 +22,7 @@ The Reporter must be specified in the jest-config.js file, under 'reporters'.
 <br>This file should be created in your project's root folder.
 <br>Parameters are defined as 'project_id', which is the id of your project on TestRail,
 <br>and 'suite_id', which is the id of the suite that should be included in the test run.
+<br>This suite_id is used as a fallback if suite_id is unavailable from a parent describe block.
 
 ```javascript
 module.exports = {
@@ -42,7 +43,7 @@ module.exports = {
 The Case ID from TestRail must be added to the start of each _it()_ description, <br>and separated from the test name by a colon - ":".
 
 ```javascript
-// "1:" this is the Suite ID from Test Rail
+// "1:" this is the (optional) Suite ID from Test Rail
 describe("1: Login Page", () => {
   // "10:" this is Case ID from Test Rail
   it("10: Login success", async () => {

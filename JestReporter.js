@@ -74,11 +74,28 @@ class Reporter {
 
       for (let i = 0; i < itResults.length; i += 1) {
         const result = itResults[i];
-        const suiteId = parseInt(result.ancestorTitles[0].split(":")[0], 10);
-        const id = result.title.split(":")[0];
-        const idNum = parseInt(id, 10);
+        /**
+         * Testrails Suite ID. Pulls from the top-most describe block if possible, otherwise attempts to use a suite_id from the reporter options. 
+         */
+        const suiteId = (() => {
+          const { ancestorTitles: [parentTitle] } = result;
 
-        if (!Number.isInteger(idNum) || !Number.isInteger(suiteId)) {
+          if (parentTitle) {
+            const [titleHeader] = parentTitle.split(':');
+            return parseInt(titleHeader, 10);
+          }
+          
+          return this._options.suite_id
+        })();
+
+        const caseId = (() => {
+          const { title } = result;
+          const [titleHeader] = title.split(':');
+          
+          return parseInt(titleHeader, 10);
+        })();
+
+        if (!Number.isInteger(caseId) || !Number.isInteger(suiteId)) {
           break;
         }
 
@@ -90,12 +107,12 @@ class Reporter {
           this.caseids[suiteId] = [];
         }
 
-        this.caseids[suiteId].push(idNum);
+        this.caseids[suiteId].push(caseId);
 
         switch (result.status) {
           case "pending":
             this.testRailResults[suiteId].push({
-              case_id: parseInt(id, 10),
+              case_id: caseId,
               status_id: 2,
               comment: "Intentionally skipped (xit).",
             });
@@ -103,7 +120,7 @@ class Reporter {
 
           case "failed":
             this.testRailResults[suiteId].push({
-              case_id: parseInt(id, 10),
+              case_id: caseId,
               status_id: 5,
               comment: stripAnsi(result.failureMessages[0]),
             });
@@ -111,7 +128,7 @@ class Reporter {
 
           case "passed":
             this.testRailResults[suiteId].push({
-              case_id: parseInt(id, 10),
+              case_id: caseId,
               status_id: 1,
               comment: "Test passed successfully.",
             });
